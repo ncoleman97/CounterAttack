@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".MainActivity">
+  <ImageView
+    android:id="@+id/cat"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:srcCompat="@android:drawable/btn_star"
+    tools:layout_editor_absoluteX="49dp"
+    tools:layout_editor_absoluteY="645dp"/>
+  <ImageView
+    android:id="@+id/counter"
+    android:layout_width="163dp"
+    android:layout_height="229dp"
+    android:background="#FF5722"
+    tools:layout_editor_absoluteX="223dp"
+    tools:layout_editor_absoluteY="503dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
