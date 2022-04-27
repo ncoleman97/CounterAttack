@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <TextView
+    android:id="@+id/titletext"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Counter Attack"
+    tools:layout_editor_absoluteX="119dp"
+    tools:layout_editor_absoluteY="233dp"/>
+  <Button
+    android:id="@+id/playbutton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Play"
+    tools:layout_editor_absoluteX="270dp"
+    tools:layout_editor_absoluteY="363dp"/>
+  <EditText
+    android:id="@+id/editTextTextMultiLine"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:ems="10"
+    android:gravity="start|top"
+    android:inputType="textMultiLine"
+    android:text="Programmed by Nicholas Coleman for the WSU senior project"
+    tools:layout_editor_absoluteX="75dp"
+    tools:layout_editor_absoluteY="510dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

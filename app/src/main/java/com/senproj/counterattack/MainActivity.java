@@ -16,11 +16,20 @@ public class MainActivity extends AppCompatActivity {
     ImageView cat=findViewById(R.id.cat);
     ImageView counter=findViewById(R.id.counter);
     Model model=new Model(cat,counter);
+    model.genCounter();
+//TODO: Eventually create graphics for cat, counter and background.
     cat.setOnTouchListener(new OnTouchListener() {
       @Override
       public boolean onTouch(View view, MotionEvent motionEvent) {
         //When held down, track cursor position. When released, run calc function with last recorded position as input.
-        return false;
+        float xpos = 0,ypos=0;
+        while (motionEvent.getAction()!=MotionEvent.ACTION_UP)
+        {
+         xpos=motionEvent.getX();
+         ypos=motionEvent.getY();
+        }
+        model.calc(xpos,ypos);
+        return true;
       }
     });
     }
