@@ -1,6 +1,7 @@
 package com.senproj.counterattack;
 
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +20,15 @@ public class Model {
   int dwidth,dheight;
   double g=-9.8;
   Boolean landed;
+  int status; //0=in progress, 1=win, 2=lose
   ImageView object;
   ImageView obs;
 public Model(ImageView cat, ImageView counter){
   DisplayMetrics metrics=new DisplayMetrics();
   dwidth=metrics.widthPixels;
   dheight=metrics.heightPixels;
+  landed=false;
+  status=0;
   xpos=cat.getX();
   ypos=cat.getY();
   force=0;
@@ -51,7 +55,13 @@ while (collision()==false)
   time++;
 }
 //Check if landed
-
+if (landed==true)
+{
+  status=1;
+}
+else {
+  status=2;
+}
 
 gameOver();
   //gravity=-9.8
@@ -80,10 +90,30 @@ if (catx>dwidth || caty>dheight || caty<0 || catx<0)
   return true; //Returns true if position outside of range
 }
 //Create a "hitbox" for both the cat and counter
+Rect catbox=new Rect();
+Rect obsbox=new Rect();
+catbox.left=object.getLeft();
+catbox.right=object.getRight();
+catbox.bottom=object.getBottom();
+catbox.top=object.getTop();
+obsbox.left=obs.getLeft();
+obsbox.right=obs.getRight();
+obsbox.bottom=obs.getBottom();
+obsbox.top=obs.getTop();
+if (catbox.intersect(obsbox))
+{
+  //Check position and speed to see if landed safely
+  landed();
+  return true;
+
+}
 
   return false;
 }
-
+public void landed()
+{
+  //If X and Y of cat are less than 10 pixels in difference and speed is <10, it counts as a land.
+}
   public void genCounter()
   {
     Random rnd=new Random();
@@ -97,5 +127,16 @@ if (catx>dwidth || caty>dheight || caty<0 || catx<0)
   public void gameOver()
   {
 
+  }
+
+  public void restart()
+  {
+    //Set landed to false
+landed=false;
+status=0;
+    //Set cat position to start
+
+    //Run gencounter
+    genCounter();
   }
 }
