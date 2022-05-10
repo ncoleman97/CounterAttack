@@ -1,51 +1,59 @@
 package com.senproj.counterattack;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.TextView;
+
 import java.util.Random;
 
 public class Model {
   float xpos;
   float ypos;
+  float startx,starty;
   double force;
   double angle;
   int time;
   int dwidth,dheight;
   double g=-9.8;
   Boolean landed;
+  Boolean flying;
   int status; //0=in progress, 1=win, 2=lose
   ImageView object;
   ImageView obs;
+  View popup;
+  TextView text;
 public Model(ImageView cat, ImageView counter){
   DisplayMetrics metrics=new DisplayMetrics();
   dwidth=metrics.widthPixels;
   dheight=metrics.heightPixels;
+  flying=false;
   landed=false;
   status=0;
   xpos=cat.getX();
   ypos=cat.getY();
+  startx=xpos;
+  starty=ypos;
   force=0;
   angle=0;
   object=cat;
   obs=counter;
   time=0;
 }
-public void calc(float xpos, float ypos)
+public void calc(float xcur, float ycur)
 {
-
+flying=true;
   //Force=sqrt(xpos^2+ypos^2)
-  force=Math.sqrt(Math.exp(xpos)+Math.exp(ypos));
-  angle=Math.atan(xpos/ypos);
+  float xdis=xcur-xpos;
+  float ydis=ycur-ypos;
+  force=Math.sqrt(Math.exp(xdis)+Math.exp(ydis));
+  angle=Math.atan(xdis/ydis);
   //Use tangent to find angle.
   //Calculate the trajectory, move object every tick until collision or reaches ground/edge of screen.
-while (collision()==false)
+while (!collision())
 {
   //Use formula to change x and y positions. Increase time by one. Program will check for collision every loop.
   xpos= (float) (force*time);
@@ -54,6 +62,7 @@ while (collision()==false)
   object.setY(ypos);
   time++;
 }
+landed();
 //Check if landed
 if (landed==true)
 {
@@ -63,7 +72,7 @@ else {
   status=2;
 }
 
-gameOver();
+//gameOver();
   //gravity=-9.8
   //y=xtan(angle)-(gx^2)/(2v^2*cos^2(angle)
   //x=v*t
@@ -112,7 +121,11 @@ if (catbox.intersect(obsbox))
 }
 public void landed()
 {
-  //If X and Y of cat are less than 10 pixels in difference and speed is <10, it counts as a land.
+  //If Y of cat is less than 10 pixels in difference, it counts as a land.
+  if (ypos-object.getTop()<=2 && ypos-object.getTop()>=-2)
+  {
+    landed=true;
+  }
 }
   public void genCounter()
   {
@@ -124,8 +137,17 @@ public void landed()
 
 
   }
+  @SuppressLint("ResourceType")
   public void gameOver()
   {
+if (status==1)
+{
+text.setText("You win!");
+}
+else
+{
+text.setText("You lose!");
+}
 
   }
 
@@ -135,8 +157,10 @@ public void landed()
 landed=false;
 status=0;
     //Set cat position to start
-
+object.setX(xpos);
+object.setY(ypos);
     //Run gencounter
     genCounter();
+    flying=false;
   }
 }

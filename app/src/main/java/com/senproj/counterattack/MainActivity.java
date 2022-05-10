@@ -11,12 +11,13 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    getSupportActionBar().hide();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ImageView cat=findViewById(R.id.cat);
     ImageView counter=findViewById(R.id.counter);
     Model model=new Model(cat,counter);
-    model.genCounter();
+   // model.genCounter();
 //TODO: Eventually create graphics for cat, counter and background.
     cat.setOnTouchListener(new OnTouchListener() {
       @Override
@@ -28,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
          xpos=motionEvent.getX();
          ypos=motionEvent.getY();
         }
-        model.calc(xpos,ypos);
+        if (model.flying==false) {
+          model.calc(xpos, ypos);
+        }
         return true;
       }
     });
